@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import EthImage from "../images/ethereum.svg";
 import { Link, useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
-import nftImage from "../images/nftImage.jpg";
+import PageSkeleton from "../components/home/PageSkeleton";
 
 const ItemDetails = () => {
     const { nftId } = useParams();
@@ -15,7 +13,9 @@ const ItemDetails = () => {
 
   
    useEffect(() => {
+    let timeoutId;
     const fetchNFT = async () => {
+      const startTime = Date.now();
       try {
         const hotResponse = await fetch(
           "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
@@ -46,35 +46,20 @@ const ItemDetails = () => {
       } catch (error) {
         console.error("Error fetching NFT details:", error);
       } finally {
-        setLoading(false);
+        const elapsed = Date.now() - startTime;
+        const minDelay = 1300;
+        const remaining = Math.max(0, minDelay - elapsed);
+        timeoutId = setTimeout(() => setLoading(false), remaining);
       }
     };
 
     fetchNFT();
+    return () => clearTimeout(timeoutId);
   }, [nftId]);
 
   if (loading) {
-  return (
-    <div className="container mt-5">
-      <div className="row">
-        <div className="col-md-6">
-          <Skeleton height={500} />
-        </div>
-
-        <div className="col-md-6">
-          <Skeleton height={50} width={300} />
-          <br />
-          <Skeleton height={20} width={150} />
-          <br />
-          <Skeleton count={4} />
-          <br />
-          <Skeleton height={40} width={120} />
-        </div>
-      </div>
-    </div>
-  );
-}
- 
+    return <PageSkeleton variant="detail" />;
+  }
 
   if (!nft) {
     return <h2>NFT not found</h2>;

@@ -1,16 +1,19 @@
 import React from "react";
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
-import {useParams} from "react-router-dom";
+import PageSkeleton from "../components/home/PageSkeleton";
 
 const Author = () => {
   const { id } = useParams();
   const [author, setAuthor] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
+    let timeoutId;
     const fetchAuthor = async () => {
+      const startTime = Date.now();
       try {
         const response = await fetch(
           `https://us-central1-nft-cloud-functions.cloudfunctions.net/authorDetails?authorId=`
@@ -21,13 +24,23 @@ const Author = () => {
         setAuthor(data);
       } catch (error) {
         console.error("Error fetching author data:", error);
+      } finally {
+        const elapsed = Date.now() - startTime;
+        const minDelay = 1300;
+        const remaining = Math.max(0, minDelay - elapsed);
+        timeoutId = setTimeout(() => setLoading(false), remaining);
       }
     };
     fetchAuthor();
+    return () => clearTimeout(timeoutId);
   }, [id]);
 
+  if (loading) {
+    return <PageSkeleton variant="author" />;
+  }
+
   if (!author) {
-    return <div>Loading...</div>;
+    return <h2>Author not found</h2>;
   }
   return (
     <div>

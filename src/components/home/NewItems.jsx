@@ -53,7 +53,9 @@ const NewItems = () => {
   }, [collections, instanceRef]);
   
   useEffect(() => {
+    let timeoutId;
     const fetchNewItems = async () => {
+      const startTime = Date.now();
       try {
         const response = await axios.get(
           "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems"
@@ -64,11 +66,15 @@ const NewItems = () => {
       } catch (err) {
         setError(err.message || "An error occurred while fetching new items.");
       } finally {
-        setLoading(false);
+        const elapsed = Date.now() - startTime;
+        const minDelay = 1300;
+        const remaining = Math.max(0, minDelay - elapsed);
+        timeoutId = setTimeout(() => setLoading(false), remaining);
       }
     };  
 
     fetchNewItems();
+    return () => clearTimeout(timeoutId);
   }, []);
 
   useEffect(() => {
