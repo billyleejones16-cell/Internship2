@@ -16,30 +16,34 @@ const HotCollections = () => {
   const [error, setError] = useState(null);
 
   function PrevArrow({ className, style, onClick }) {
-  return (
-    <button
-      className={`hc-arrow hc-prev ${className || ""}`}
-      style={{ ...style }}
-      onClick={onClick}
-      aria-label="Previous"
-    >
-      <FontAwesomeIcon icon={faArrowLeft} />
-    </button>
-  );
-}
+    const filteredClassName = (className || "").replace(/slick-(prev|next)\s*/g, "").trim();
 
-function NextArrow({ className, style, onClick }) {
-  return (
-    <button
-      className={`hc-arrow hc-next ${className || ""}`}
-      style={{ ...style }}
-      onClick={onClick}
-      aria-label="Next"
-    >
-      <FontAwesomeIcon icon={faArrowRight} />
-    </button>
-  );
-}
+    return (
+      <button
+        className={`hc-arrow hc-prev ${filteredClassName}`.trim()}
+        style={{ ...style }}
+        onClick={onClick}
+        aria-label="Previous"
+      >
+        <FontAwesomeIcon icon={faArrowLeft} />
+      </button>
+    );
+  }
+
+  function NextArrow({ className, style, onClick }) {
+    const filteredClassName = (className || "").replace(/slick-(prev|next)\s*/g, "").trim();
+
+    return (
+      <button
+        className={`hc-arrow hc-next ${filteredClassName}`.trim()}
+        style={{ ...style }}
+        onClick={onClick}
+        aria-label="Next"
+      >
+        <FontAwesomeIcon icon={faArrowRight} />
+      </button>
+    );
+  }
 
   const settings = {
     dots: true,
