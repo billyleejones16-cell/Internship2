@@ -5,6 +5,8 @@ import Landing from "../components/home/Landing";
 import LandingIntro from "../components/home/LandingIntro";
 import NewItems from "../components/home/NewItems";
 import TopSellers from "../components/home/TopSellers";
+import PageSkeleton from "../components/UI/PageSkeleton";
+import { DelayedContent } from "../components/UI/Skeleton";
 
 const Home = () => {
   useEffect(() => {
@@ -12,7 +14,8 @@ const Home = () => {
   }, []);
 
   return (
-    <div id="wrapper">
+    <DelayedContent delay={1000} fallback={<PageSkeleton />}>
+      <div id="wrapper">
       <div className="no-bottom no-top" id="content">
         <div id="top"></div>
         <Landing />
@@ -22,7 +25,8 @@ const Home = () => {
         <TopSellers />
         <BrowseByCategory />
       </div>
-    </div>
+      </div>
+    </DelayedContent>
   );
 };
 

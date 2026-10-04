@@ -3,12 +3,14 @@ import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
 import { Link } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
+import { DelayedContent } from "../components/UI/Skeleton";
 
 const Author = () => {
   return (
-    <div id="wrapper">
-      <div className="no-bottom no-top" id="content">
-        <div id="top"></div>
+    <DelayedContent delay={1000}>
+      <div id="wrapper">
+        <div className="no-bottom no-top" id="content">
+          <div id="top"></div>
 
         <section
           id="profile_banner"
@@ -17,14 +19,14 @@ const Author = () => {
           style={{ background: `url(${AuthorBanner}) top` }}
         ></section>
 
-        <section aria-label="section">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-12">
-                <div className="d_profile de-flex">
-                  <div className="de-flex-col">
-                    <div className="profile_avatar">
-                      <img src={AuthorImage} alt="" />
+          <section aria-label="section">
+            <div className="container">
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="d_profile de-flex">
+                    <div className="de-flex-col">
+                      <div className="profile_avatar">
+                        <img src={AuthorImage} alt="" />
 
                       <i className="fa fa-check"></i>
 
@@ -66,18 +68,18 @@ const Author = () => {
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="col-md-12">
-                <div className="de_tab tab_simple">
-                  <AuthorItems />
+                <div className="col-md-12">
+                  <div className="de_tab tab_simple">
+                    <AuthorItems />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
       </div>
-    </div>
+    </DelayedContent>
   );
 };
 

@@ -5,6 +5,7 @@ import EthImage from "../images/ethereum.svg";
 import { Link, useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
 import nftImage from "../images/nftImage.jpg";
+import { DelayedContent } from "../components/UI/Skeleton";
 
 const ItemDetails = () => {
     const { nftId } = useParams();
@@ -183,7 +184,7 @@ const ItemDetails = () => {
         </section>
 
       </div>
-    </div>
+    </DelayedContent>
   );
 };
 
