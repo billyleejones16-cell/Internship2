@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import "./HotCollections.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import AuthorImage from "../../images/author_thumbnail.jpg";
-import nftImage from "../../images/nftImage.jpg";
-import axios from "axios";
 import "keen-slider/keen-slider.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useKeenSlider } from "keen-slider/react";
+import AuthorImage from "../../images/author_thumbnail.jpg";
+import nftImage from "../../images/nftImage.jpg";
 import "./NewItems.css";
 
 const formatCountdown = (expiryDate) => {
@@ -79,14 +72,13 @@ const NewItems = () => {
   useEffect(() => {
     instanceRef.current?.update();
   }, [collections, instanceRef]);
-  
+
   useEffect(() => {
     const fetchNewItems = async () => {
       try {
         const response = await axios.get(
           "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems"
         );
-        console.log("API Response:", response.data);
 
         setCollections(response.data || []);
       } catch (err) {
@@ -94,7 +86,7 @@ const NewItems = () => {
       } finally {
         setLoading(false);
       }
-    };  
+    };
 
     fetchNewItems();
   }, []);
@@ -121,128 +113,138 @@ const NewItems = () => {
     return () => clearInterval(interval);
   }, [collections]);
 
+  if (loading) {
+    return (
+      <section id="section-items" className="no-bottom">
+        <div className="container">
+          <p>Loading...</p>
+        </div>
+      </section>
+    );
+  }
 
-  if (loading) return <section id="section-items" className="no-bottom"><div className="container"><p>Loading...</p></div></section>;
-  if (error) return <section id="section-items" className="no-bottom"><div className="container"><p>Error: {error}</p></div></section>;
+  if (error) {
+    return (
+      <section id="section-items" className="no-bottom">
+        <div className="container">
+          <p>Error: {error}</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="section-items" className="no-bottom">
       <div className="container">
         <div className="row">
-
-  <div className="col-lg-12">
-    <div className="text-center">
-      <h2>New Items</h2>
-      <div className="small-border bg-color-2"></div>
-    </div>
-  </div>
-
-  <div className="col-lg-12">
-    <div className="slider-wrapper">
-
-      <button
-        className="hc-arrow hc-prev"
-        onClick={handlePrev}
-        aria-label="Previous slide"
-      >
-        <FontAwesomeIcon icon={faArrowLeft} />
-      </button>
-
-      <button
-        className="hc-arrow hc-next"
-        onClick={handleNext}
-        aria-label="Next slide"
-      >
-        <FontAwesomeIcon icon={faArrowRight} />
-      </button>
-
-      <div ref={sliderRef} className="keen-slider">
-
-        {collections.map((collection, index) => (
-          <div
-            key={collection.id || index}
-            className="keen-slider__slide"
-          >
-            <div className="nft__item">
-
-              <div className="author_list_pp">
-                <Link
-                  to={`/author/${collection.authorId}`}
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  title={`Creator: ${collection.author}`}
-                >
-                  <img
-                    className="lazy"
-                    src={collection.authorImage || AuthorImage}
-                    alt={collection.author}
-                  />
-                  <i className="fa fa-check"></i>
-                </Link>
-              </div>
-
-              {collection.expiryDate && (
-                <div className="de_countdown">
-                  {countdowns[collection.id ?? collection.nftId] || formatCountdown(collection.expiryDate)}
-                </div>
-              )}
-
-              <div className="nft__item_wrap">
-                <div className="nft__item_extra">
-                  <div className="nft__item_buttons">
-                    <button>Buy Now</button>
-
-                    <div className="nft__item_share">
-                      <h4>Share</h4>
-
-                      <a href="" target="_blank" rel="noreferrer">
-                        <i className="fa fa-facebook fa-lg"></i>
-                      </a>
-
-                      <a href="" target="_blank" rel="noreferrer">
-                        <i className="fa fa-twitter fa-lg"></i>
-                      </a>
-
-                      <a href="">
-                        <i className="fa fa-envelope fa-lg"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-
-                <Link to={`/item-details/${collection.nftId}`}>
-                  <img
-                    src={collection.nftImage || nftImage}
-                    className="lazy nft__item_preview"
-                    alt={collection.title}
-                  />
-                </Link>
-              </div>
-
-              <div className="nft__item_info">
-                <Link to={`/item-details/${collection.nftId}`}>
-                  <h4>{collection.title}</h4>
-                </Link>
-
-                <div className="nft__item_price">
-                  {Number(collection.price).toFixed(2)} ETH
-                </div>
-
-                <div className="nft__item_like">
-                  <i className="fa fa-heart"></i>
-                  <span>{collection.likes}</span>
-                </div>
-              </div>
-
+          <div className="col-lg-12">
+            <div className="text-center">
+              <h2>New Items</h2>
+              <div className="small-border bg-color-2"></div>
             </div>
           </div>
-        ))}
 
-      </div>
-    </div>
-  </div>
+          <div className="col-lg-12">
+            <div className="slider-wrapper">
+              <button
+                className="hc-arrow hc-prev"
+                onClick={handlePrev}
+                aria-label="Previous slide"
+              >
+                <FontAwesomeIcon icon={faArrowLeft} />
+              </button>
 
-</div>
+              <button
+                className="hc-arrow hc-next"
+                onClick={handleNext}
+                aria-label="Next slide"
+              >
+                <FontAwesomeIcon icon={faArrowRight} />
+              </button>
+
+              <div ref={sliderRef} className="keen-slider">
+                {collections.map((collection, index) => {
+                  const itemId = collection.id ?? collection.nftId;
+
+                  return (
+                    <div key={itemId ?? index} className="keen-slider__slide">
+                      <div className="nft__item">
+                        <div className="author_list_pp">
+                          <Link
+                            to={`/author/${collection.authorId}`}
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
+                            title={`Creator: ${collection.author || "Creator"}`}
+                          >
+                            <img
+                              className="lazy"
+                              src={collection.authorImage || AuthorImage}
+                              alt={collection.author || "Author"}
+                            />
+                            <i className="fa fa-check"></i>
+                          </Link>
+                        </div>
+
+                        {collection.expiryDate && (
+                          <div className="de_countdown">
+                            {countdowns[itemId] || formatCountdown(collection.expiryDate)}
+                          </div>
+                        )}
+
+                        <div className="nft__item_wrap">
+                          <div className="nft__item_extra">
+                            <div className="nft__item_buttons">
+                              <button>Buy Now</button>
+
+                              <div className="nft__item_share">
+                                <h4>Share</h4>
+
+                                <a href="" target="_blank" rel="noreferrer">
+                                  <i className="fa fa-facebook fa-lg"></i>
+                                </a>
+
+                                <a href="" target="_blank" rel="noreferrer">
+                                  <i className="fa fa-twitter fa-lg"></i>
+                                </a>
+
+                                <a href="">
+                                  <i className="fa fa-envelope fa-lg"></i>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+
+                          <Link to={`/item-details/${collection.nftId}`}>
+                            <img
+                              src={collection.nftImage || nftImage}
+                              className="lazy nft__item_preview"
+                              alt={collection.title || "NFT"}
+                            />
+                          </Link>
+                        </div>
+
+                        <div className="nft__item_info">
+                          <Link to={`/item-details/${collection.nftId}`}>
+                            <h4>{collection.title}</h4>
+                          </Link>
+
+                          <div className="nft__item_price">
+                            {Number(collection.price || 0).toFixed(2)} ETH
+                          </div>
+
+                          <div className="nft__item_like">
+                            <i className="fa fa-heart"></i>
+                            <span>{collection.likes}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
