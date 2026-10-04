@@ -1,6 +1,6 @@
 .slider-wrapper {
-  position: relative;
-  padding: 0 60px;
+    position: relative;
+    padding: 0 60px;
 }
 
 .hc-arrow {
@@ -39,15 +39,49 @@
 .keen-slider {
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 .keen-slider__slide {
-  min-width: 0;
-  flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
 }
 
-.nft_coll {
+/* Keep arrows inside screen on tablets */
+@media (max-width: 992px) {
+  .hc-prev {
+    left: -20px;
+  }
+
+  .hc-next {
+    right: -20px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .hc-prev {
+    left: 5px;
+  }
+
+  .hc-next {
+    right: 5px;
+  }
+}
+
+.keen-slider {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ensure cards stay same height */
+.nft__item {
+  height: 100%;
+}
+
+/* Fix image sizing */
+.nft__item_preview {
   width: 100%;
-  display: flex;
-  flex-direction: column;
+  display: block;
+  border-radius: 8px;
 }

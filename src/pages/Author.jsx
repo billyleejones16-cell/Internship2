@@ -12,13 +12,12 @@ const Author = () => {
         <div className="no-bottom no-top" id="content">
           <div id="top"></div>
 
-          <section
-            id="profile_banner"
-            aria-label="section"
-            className="text-light"
-            data-bgimage="url(images/author_banner.jpg) top"
-            style={{ background: `url(${AuthorBanner}) top` }}
-          ></section>
+        <section
+          id="profile_banner"
+          aria-label="section"
+          className="text-light"
+          style={{ background: `url(${AuthorBanner}) top` }}
+        ></section>
 
           <section aria-label="section">
             <div className="container">
@@ -29,28 +28,43 @@ const Author = () => {
                       <div className="profile_avatar">
                         <img src={AuthorImage} alt="" />
 
-                        <i className="fa fa-check"></i>
-                        <div className="profile_name">
-                          <h4>
-                            Monica Lucas
-                            <span className="profile_username">@monicaaaa</span>
-                            <span id="wallet" className="profile_wallet">
-                              UDHUHWudhwd78wdt7edb32uidbwyuidhg7wUHIFUHWewiqdj87dy7
-                            </span>
-                            <button id="btn_copy" title="Copy Text">
-                              Copy
-                            </button>
-                          </h4>
-                        </div>
+                      <i className="fa fa-check"></i>
+
+                      <div className="profile_name">
+                        <h4>
+                          Monica Lucas
+
+                          <span className="profile_username">
+                            @monicaaaa
+                          </span>
+
+                          <span
+                            id="wallet"
+                            className="profile_wallet"
+                          >
+                            UDHUHWudhwd78wdt7edb32uidbwyuidhg7wUHIFUHWewiqdj87dy7
+                          </span>
+
+                          <button
+                            id="btn_copy"
+                            title="Copy Text"
+                          >
+                            Copy
+                          </button>
+                        </h4>
                       </div>
                     </div>
-                    <div className="profile_follow de-flex">
-                      <div className="de-flex-col">
-                        <div className="profile_follower">573 followers</div>
-                        <Link to="#" className="btn-main">
-                          Follow
-                        </Link>
+                  </div>
+
+                  <div className="profile_follow de-flex">
+                    <div className="de-flex-col">
+                      <div className="profile_follower">
+                        573 followers
                       </div>
+
+                      <Link to="#" className="btn-main">
+                        Follow
+                      </Link>
                     </div>
                   </div>
                 </div>
