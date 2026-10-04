@@ -9,6 +9,29 @@ import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useKeenSlider } from "keen-slider/react";
 import "./NewItems.css";
 
+const formatCountdown = (expiryDate) => {
+  const expiry = Number(expiryDate);
+
+  if (!Number.isFinite(expiry) || expiry <= 0) {
+    return "00:00:00";
+  }
+
+  const distance = expiry - Date.now();
+
+  if (distance <= 0) {
+    return "00:00:00";
+  }
+
+  const totalSeconds = Math.floor(distance / 1000);
+  const hours = Math.floor(totalSeconds / 3600) % 24;
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  return [hours, minutes, seconds]
+    .map((value) => String(value).padStart(2, "0"))
+    .join(":");
+};
+
 const NewItems = () => {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -70,34 +93,24 @@ const NewItems = () => {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    if (!collections.length) {
+      return undefined;
+    }
+
+    const updateCountdowns = () => {
       const updatedCountdowns = {};
 
       collections.forEach((collection) => {
-        if (!collection.expiryDate) {
-          updatedCountdowns[collection.id] = "00:00:00";
-          return;
-        }
-
-        const distance = collection.expiryDate - Date.now();
-        if (distance <= 0) {
-          updatedCountdowns[collection.id] = "00:00:00";
-          return;
-        }
-
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        
-        updatedCountdowns[collection.id] =
-          `${String(hours).padStart(2, "0")}:` +
-          `${String(minutes).padStart(2, "0")}:` +
-          `${String(seconds).padStart(2, "0")}`;
+        const id = collection.id ?? collection.nftId;
+        updatedCountdowns[id] = formatCountdown(collection.expiryDate);
       });
 
       setCountdowns(updatedCountdowns);
-    }, 1000);
+    };
 
+    updateCountdowns();
+
+    const interval = setInterval(updateCountdowns, 1000);
     return () => clearInterval(interval);
   }, [collections]);
 
@@ -163,7 +176,7 @@ const NewItems = () => {
 
               {collection.expiryDate && (
                 <div className="de_countdown">
-                  {countdowns[collection.id] || "00:00:00"}
+                  {countdowns[collection.id ?? collection.nftId] || formatCountdown(collection.expiryDate)}
                 </div>
               )}
 
