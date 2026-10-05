@@ -14,14 +14,13 @@ function App() {
       <SkeletonTheme
         baseColor="#e0e0e0"
         highlightColor="#f5f5f5"
-        >
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/author/:id" element={<Author />} />
-        <Route path="/item-details/:nftId" element={<ItemDetails />} />
-      </Routes>
-
+      >
+        <Nav />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/author/:id" element={<Author />} />
+          <Route path="/item-details/:nftId" element={<ItemDetails />} />
+        </Routes>
       </SkeletonTheme>
     </BrowserRouter>
   );
