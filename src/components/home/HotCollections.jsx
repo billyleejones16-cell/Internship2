@@ -8,8 +8,10 @@ import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import AuthorImage from "../../images/author_thumbnail.jpg";
 import nftImage from "../../images/nftImage.jpg";
 import "./HotCollections.css";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
-const HotCollections = () => {
+const HotCollections = ({ searchTerm }) => {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -77,9 +79,39 @@ const handleNext = () => {
 
 if (loading) {
   return (
-    <section className="no-bottom">
+    <section id="section-collections" className="no-bottom">
       <div className="container">
-        <h3>Loading collections...</h3>
+
+        <div className="text-center mb-4">
+          <Skeleton width={220} height={40} />
+        </div>
+
+        <div className="row">
+          {[...Array(4)].map((_, index) => (
+            <div key={index} className="col-md-3">
+
+              <div className="nft_coll">
+
+                <Skeleton height={250} />
+
+                <div style={{ marginTop: "-30px", textAlign: "center" }}>
+                  <Skeleton circle width={60} height={60} />
+                </div>
+
+                <div style={{ marginTop: "15px" }}>
+                  <Skeleton height={20} />
+                </div>
+
+                <div style={{ marginTop: "10px" }}>
+                  <Skeleton height={15} width="60%" />
+                </div>
+
+              </div>
+
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   );
@@ -94,6 +126,10 @@ if (!collections.length) {
     </section>
   );
 }
+
+const filteredCollections = collections.filter((collection) =>
+  collection.title.toLowerCase().includes(searchTerm.toLowerCase())
+);
 
   return (
     <section id="section-collections" className="no-bottom">
@@ -127,14 +163,14 @@ if (!collections.length) {
               </button>
 
             <div ref={sliderRef} className="keen-slider">
-              {collections.map((collection) => (
+              {filteredCollections.map((collection) => (
                   <div
                     key={collection.id}
                     className="keen-slider__slide"
                   >
                   <div className="nft_coll">
                     <div className="nft_wrap">
-                     <Link to={`/item-details/${collection.id}`}>
+                     <Link to={`/item-details/${collection.nftId}`}>
                         <img
                           src={collection.nftImage || nftImage}
                           className="lazy img-fluid"

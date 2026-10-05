@@ -16,7 +16,6 @@ const Skeleton = ({ width = "100%", height = "1rem", borderRadius = "4px", style
   );
 };
 
-// Shows a lightweight skeleton for `delay` ms before rendering children.
 const DelayedContent = ({ children, delay = 1000, fallback = null }) => {
   const [ready, setReady] = useState(false);
 
@@ -28,7 +27,6 @@ const DelayedContent = ({ children, delay = 1000, fallback = null }) => {
   if (ready) return <>{children}</>;
   if (fallback) return fallback;
 
-  // default minimal skeleton fallback
   return (
     <div style={{ padding: "1rem" }}>
       <Skeleton width="35%" height="1.1rem" />

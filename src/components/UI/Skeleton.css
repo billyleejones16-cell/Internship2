@@ -6,11 +6,29 @@
 }
 
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* reduced-motion support */
 @media (prefers-reduced-motion: reduce) {
-  .skeleton-box { animation: none; }
+  .skeleton-box {
+    animation: none;
+  }
+}
+
+.skeleton-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.skeleton-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }

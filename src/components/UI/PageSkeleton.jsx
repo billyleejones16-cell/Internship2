@@ -3,6 +3,7 @@ import Skeleton from "./Skeleton";
 import "./Skeleton.css";
 
 const PageSkeleton = ({ variant = "light" }) => {
+  // Lightweight skeleton (default) to minimize DOM and improve initial render.
   if (variant === "light") {
     return (
       <div style={{ padding: "1rem" }}>
@@ -25,6 +26,7 @@ const PageSkeleton = ({ variant = "light" }) => {
     );
   }
 
+  // Full variant preserves the original, heavier layout for cases that need detailed placeholders.
   return (
     <div style={{ padding: "1rem" }}>
       <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>

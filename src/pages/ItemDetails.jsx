@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import PageSkeleton from "../components/UI/PageSkeleton";
 import EthImage from "../images/ethereum.svg";
 import { Link, useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
@@ -45,25 +44,7 @@ const ItemDetails = () => {
   }, [nftId]);
 
   if (loading) {
-    return (
-      <div className="container mt-5">
-        <div className="row">
-          <div className="col-md-6">
-            <Skeleton height={500} />
-          </div>
-
-          <div className="col-md-6">
-            <Skeleton height={50} width={300} />
-            <br />
-            <Skeleton height={20} width={150} />
-            <br />
-            <Skeleton count={4} />
-            <br />
-            <Skeleton height={40} width={120} />
-          </div>
-        </div>
-      </div>
-    );
+    return <PageSkeleton />;
   }
 
   if (!nft) {

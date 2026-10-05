@@ -8,6 +8,8 @@ import { useKeenSlider } from "keen-slider/react";
 import AuthorImage from "../../images/author_thumbnail.jpg";
 import nftImage from "../../images/nftImage.jpg";
 import "./NewItems.css";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const formatCountdown = (expiryDate) => {
   const expiry = Number(expiryDate);
@@ -117,7 +119,38 @@ const NewItems = () => {
     return (
       <section id="section-items" className="no-bottom">
         <div className="container">
-          <p>Loading...</p>
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="text-center">
+                <h2>New Items</h2>
+                <div className="small-border bg-color-2"></div>
+              </div>
+            </div>
+
+            {[...Array(4)].map((_, index) => (
+              <div key={index} className="col-md-3">
+                <div className="nft__item">
+                  <Skeleton height={220} />
+
+                  <div style={{ marginTop: "12px" }}>
+                    <Skeleton circle width={50} height={50} />
+                  </div>
+
+                  <div style={{ marginTop: "12px" }}>
+                    <Skeleton height={24} />
+                  </div>
+
+                  <div style={{ marginTop: "8px" }}>
+                    <Skeleton width="50%" />
+                  </div>
+
+                  <div style={{ marginTop: "8px" }}>
+                    <Skeleton width="30%" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     );
