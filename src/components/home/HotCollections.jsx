@@ -39,7 +39,9 @@ const HotCollections = ({ searchTerm }) => {
   });
 
  useEffect(() => {
+  let timeoutId;
   const fetchCollections = async () => {
+    const startTime = Date.now();
     try {
       const response = await fetch(
         "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
@@ -56,11 +58,15 @@ const HotCollections = ({ searchTerm }) => {
     } catch (error) {
       console.error("Error fetching collections:", error);
     } finally {
-      setLoading(false);
+      const elapsed = Date.now() - startTime;
+      const minDelay = 1300;
+      const remaining = Math.max(0, minDelay - elapsed);
+      timeoutId = setTimeout(() => setLoading(false), remaining);
     }
   };
 
     fetchCollections();
+    return () => clearTimeout(timeoutId);
  }, []);
 
 useEffect(() => {

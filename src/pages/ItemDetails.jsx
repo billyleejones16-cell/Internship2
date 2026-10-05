@@ -12,7 +12,11 @@ const ItemDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let timeoutId;
+
     const fetchNFT = async () => {
+      const startTime = Date.now();
+
       try {
         const [hotResponse, newResponse] = await Promise.all([
           fetch("https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"),
@@ -28,7 +32,8 @@ const ItemDetails = () => {
         ];
 
         const selectedNFT = allNFTs.find(
-          (item) => String(item.nftId) === String(nftId) || String(item.id) === String(nftId)
+          (item) =>
+            String(item.nftId) === String(nftId) || String(item.id) === String(nftId)
         );
 
         setNft(selectedNFT || null);
@@ -36,11 +41,15 @@ const ItemDetails = () => {
         console.error("Error fetching NFT details:", error);
         setNft(null);
       } finally {
-        setLoading(false);
+        const elapsed = Date.now() - startTime;
+        const minDelay = 1300;
+        const remaining = Math.max(0, minDelay - elapsed);
+        timeoutId = setTimeout(() => setLoading(false), remaining);
       }
     };
 
     fetchNFT();
+    return () => clearTimeout(timeoutId);
   }, [nftId]);
 
   if (loading) {
@@ -87,7 +96,10 @@ const ItemDetails = () => {
                         <div className="item_author">
                           <div className="author_list_pp">
                             <Link to={`/author/${nft.authorId || ""}`}>
-                              <img src={nft.authorImage || AuthorImage} alt={nft.title || "Author"} />
+                              <img
+                                src={nft.authorImage || AuthorImage}
+                                alt={nft.title || "Author"}
+                              />
                               <i className="fa fa-check"></i>
                             </Link>
                           </div>
@@ -106,7 +118,10 @@ const ItemDetails = () => {
                         <div className="item_author">
                           <div className="author_list_pp">
                             <Link to={`/author/${nft.authorId || ""}`}>
-                              <img src={nft.authorImage || AuthorImage} alt={nft.title || "Author"} />
+                              <img
+                                src={nft.authorImage || AuthorImage}
+                                alt={nft.title || "Author"}
+                              />
                               <i className="fa fa-check"></i>
                             </Link>
                           </div>

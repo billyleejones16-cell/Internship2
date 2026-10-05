@@ -9,9 +9,13 @@ import { DelayedContent } from "../components/UI/Skeleton";
 const Author = () => {
   const { id } = useParams();
   const [author, setAuthor] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
+    let timeoutId;
+
     const fetchAuthor = async () => {
+      const startTime = Date.now();
       try {
         const response = await fetch(
           `https://us-central1-nft-cloud-functions.cloudfunctions.net/authorDetails?authorId=${id}`
@@ -20,13 +24,24 @@ const Author = () => {
         setAuthor(data);
       } catch (error) {
         console.error("Error fetching author data:", error);
+      } finally {
+        const elapsed = Date.now() - startTime;
+        const minDelay = 1300;
+        const remaining = Math.max(0, minDelay - elapsed);
+        timeoutId = setTimeout(() => setLoading(false), remaining);
       }
     };
 
     if (id) {
       fetchAuthor();
     }
+
+    return () => clearTimeout(timeoutId);
   }, [id]);
+
+  if (loading) {
+    return <PageSkeleton variant="author" />;
+  }
 
   if (!author) {
     return <PageSkeleton />;
