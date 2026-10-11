@@ -238,17 +238,17 @@ const NewItems = () => {
                               <div className="nft__item_share">
                                 <h4>Share</h4>
 
-                                <a href="" target="_blank" rel="noreferrer">
+                                <button type="button" aria-label="Share on Facebook">
                                   <i className="fa fa-facebook fa-lg"></i>
-                                </a>
+                                </button>
 
-                                <a href="" target="_blank" rel="noreferrer">
+                                <button type="button" aria-label="Share on Twitter">
                                   <i className="fa fa-twitter fa-lg"></i>
-                                </a>
+                                </button>
 
-                                <a href="">
+                                <button type="button" aria-label="Share via email">
                                   <i className="fa fa-envelope fa-lg"></i>
-                                </a>
+                                </button>
                               </div>
                             </div>
                           </div>

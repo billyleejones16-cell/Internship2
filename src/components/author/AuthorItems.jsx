@@ -18,8 +18,8 @@ const AuthorItems = ({ items = [], authorImage }) => {
               <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={itemId}>
                 <div className="nft__item">
                   <div className="author_list_pp">
-                    <Link to="#">
-                      <img className="lazy" src={authorImage} alt="" />
+                    <Link to={nft.authorId ? `/author/${nft.authorId}` : "/author"}>
+                      <img className="lazy" src={authorImage} alt={nft.author || "Author"} />
                       <i className="fa fa-check"></i>
                     </Link>
                   </div>
@@ -29,15 +29,15 @@ const AuthorItems = ({ items = [], authorImage }) => {
                         <button>Buy Now</button>
                         <div className="nft__item_share">
                           <h4>Share</h4>
-                          <a href="" target="_blank" rel="noreferrer">
+                          <button type="button" aria-label="Share on Facebook">
                             <i className="fa fa-facebook fa-lg"></i>
-                          </a>
-                          <a href="" target="_blank" rel="noreferrer">
+                          </button>
+                          <button type="button" aria-label="Share on Twitter">
                             <i className="fa fa-twitter fa-lg"></i>
-                          </a>
-                          <a href="">
+                          </button>
+                          <button type="button" aria-label="Share via email">
                             <i className="fa fa-envelope fa-lg"></i>
-                          </a>
+                          </button>
                         </div>
                       </div>
                     </div>

@@ -11,6 +11,18 @@ const ItemDetails = () => {
   const [nft, setNft] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const normalizeAuthor = (item, fallbackLabel = "Unknown") => {
+    const owner = item?.owner ?? {};
+    const creator = item?.creator ?? {};
+    const author = item?.author ?? {};
+
+    return {
+      id: owner.id ?? creator.id ?? author.id ?? item?.ownerId ?? item?.creatorId ?? item?.authorId ?? "",
+      name: owner.name ?? creator.name ?? author.name ?? item?.ownerName ?? item?.creatorName ?? item?.authorName ?? fallbackLabel,
+      image: owner.image ?? creator.image ?? author.image ?? item?.ownerImage ?? item?.creatorImage ?? item?.authorImage ?? AuthorImage,
+    };
+  };
+
   useEffect(() => {
     let timeoutId;
 
@@ -18,23 +30,16 @@ const ItemDetails = () => {
       const startTime = Date.now();
 
       try {
-        const [hotResponse, newResponse] = await Promise.all([
-          fetch("https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"),
-          fetch("https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems"),
-        ]);
-
-        const hotData = await hotResponse.json();
-        const newData = await newResponse.json();
-
-        const allNFTs = [
-          ...(Array.isArray(hotData) ? hotData : []),
-          ...(Array.isArray(newData) ? newData : []),
-        ];
-
-        const selectedNFT = allNFTs.find(
-          (item) =>
-            String(item.nftId) === String(nftId) || String(item.id) === String(nftId)
+        const response = await fetch(
+          `https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId}`
         );
+
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const selectedNFT = Array.isArray(data) ? data[0] : data;
 
         setNft(selectedNFT || null);
       } catch (error) {
@@ -48,6 +53,13 @@ const ItemDetails = () => {
       }
     };
 
+    if (!nftId) {
+      setNft(null);
+      setLoading(false);
+      return undefined;
+    }
+
+    setLoading(true);
     fetchNFT();
     return () => clearTimeout(timeoutId);
   }, [nftId]);
@@ -59,6 +71,17 @@ const ItemDetails = () => {
   if (!nft) {
     return <h2>NFT not found</h2>;
   }
+
+  const owner = normalizeAuthor(nft, "Owner unavailable");
+  const creator = normalizeAuthor(
+    {
+      ...nft,
+      owner: nft.owner ?? nft,
+      creator: nft.creator ?? nft,
+      author: nft.author ?? nft,
+    },
+    "Creator unavailable"
+  );
 
   return (
     <DelayedContent delay={1000}>
@@ -80,32 +103,42 @@ const ItemDetails = () => {
                 <div className="col-md-6">
                   <div className="item_info">
                     <h2>{nft.title}</h2>
+                    <div className="item_title_id" style={{ fontSize: "2rem", fontWeight: 700, lineHeight: 1.2, marginTop: "0.25rem" }}>
+                      #{nft.nftId}
+                    </div>
 
                     <div className="item_info_counts">
                       <div className="item_info_like">
                         <i className="fa fa-heart"></i>
                         {nft.likes || 0}
                       </div>
+                      <div className="item_info_views">
+                        <i className="fa fa-eye"></i>
+                        {nft.views || 0}
+                      </div>
                     </div>
 
-                    <p>NFT ID: {nft.nftId || nft.id}</p>
+                    <div className="spacer-10"></div>
+
+                    <h6>Description</h6>
+                    <p>{nft.description || "No description available."}</p>
 
                     <div className="d-flex flex-row">
                       <div className="mr40">
                         <h6>Owner</h6>
                         <div className="item_author">
                           <div className="author_list_pp">
-                            <Link to={`/author/${nft.authorId || ""}`}>
+                            <Link to={owner.id ? `/author/${owner.id}` : "#"}>
                               <img
-                                src={nft.authorImage || AuthorImage}
-                                alt={nft.title || "Author"}
+                                src={owner.image}
+                                alt={owner.name || "Owner unavailable"}
                               />
                               <i className="fa fa-check"></i>
                             </Link>
                           </div>
                           <div className="author_list_info">
-                            <Link to={`/author/${nft.authorId || ""}`}>
-                              Author #{nft.authorId || "Unknown"}
+                            <Link to={owner.id ? `/author/${owner.id}` : "#"}>
+                              {owner.name}
                             </Link>
                           </div>
                         </div>
@@ -117,17 +150,17 @@ const ItemDetails = () => {
                         <h6>Creator</h6>
                         <div className="item_author">
                           <div className="author_list_pp">
-                            <Link to={`/author/${nft.authorId || ""}`}>
+                            <Link to={creator.id ? `/author/${creator.id}` : "#"}>
                               <img
-                                src={nft.authorImage || AuthorImage}
-                                alt={nft.title || "Author"}
+                                src={creator.image}
+                                alt={creator.name || "Creator unavailable"}
                               />
                               <i className="fa fa-check"></i>
                             </Link>
                           </div>
                           <div className="author_list_info">
-                            <Link to={`/author/${nft.authorId || ""}`}>
-                              Author #{nft.authorId || "Unknown"}
+                            <Link to={creator.id ? `/author/${creator.id}` : "#"}>
+                              {creator.name}
                             </Link>
                           </div>
                         </div>
@@ -140,6 +173,7 @@ const ItemDetails = () => {
                         <img src={EthImage} alt="ETH" />
                         <span>{Number(nft.price || 0).toFixed(2)}</span>
                       </div>
+
                     </div>
                   </div>
                 </div>
