@@ -10,15 +10,17 @@ const ExploreItems = () => {
   const [error, setError] = useState(null);
   const [countdowns, setCountdowns] = useState({});
   const [visibleCount, setVisibleCount] = useState(8);
-  const [filter, setFilter] = useState("likes_high_to_low");
+  const [filter, setFilter] = useState("");
 
-  useEffect(() => {
-    let timeoutId;
+  const refreshItems = (selectedFilter = "") => {
+    setVisibleCount(8);
+    setLoading(true);
+
     const fetchExploreItems = async () => {
       const startTime = Date.now();
 
       try {
-        const query = filter ? `?filter=${filter}` : "";
+        const query = selectedFilter ? `?filter=${selectedFilter}` : "";
         const response = await fetch(
           `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore${query}`
         );
@@ -35,18 +37,22 @@ const ExploreItems = () => {
         const minDelay = 1300;
         const remaining = Math.max(0, minDelay - elapsed);
 
-        timeoutId = setTimeout(() => {
+        setTimeout(() => {
           setLoading(false);
         }, remaining);
       }
     };
 
-    setVisibleCount(8);
-    setLoading(true);
     fetchExploreItems();
+  };
 
-    return () => clearTimeout(timeoutId);
+  useEffect(() => {
+    refreshItems(filter);
   }, [filter]);
+
+  useEffect(() => {
+    refreshItems();
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -97,7 +103,10 @@ const ExploreItems = () => {
         <select
           id="filter-items"
           value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          onChange={(e) => {
+            const selectedValue = e.target.value;
+            setFilter(selectedValue);
+          }}
         >
           <option value="">Default</option>
           <option value="price_low_to_high">Price, Low to High</option>
@@ -145,15 +154,15 @@ const ExploreItems = () => {
                     <button>Buy Now</button>
                     <div className="nft__item_share">
                       <h4>Share</h4>
-                      <a href="" target="_blank" rel="noreferrer">
+                      <button type="button" aria-label="Share on Facebook">
                         <i className="fa fa-facebook fa-lg"></i>
-                      </a>
-                      <a href="" target="_blank" rel="noreferrer">
+                      </button>
+                      <button type="button" aria-label="Share on Twitter">
                         <i className="fa fa-twitter fa-lg"></i>
-                      </a>
-                      <a href="">
+                      </button>
+                      <button type="button" aria-label="Share via email">
                         <i className="fa fa-envelope fa-lg"></i>
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
