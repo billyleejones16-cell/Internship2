@@ -28,6 +28,10 @@ const Landing = () => {
         >
           <div
             className="col-lg-6 col-md-12"
+            data-aos="fade-up"
+            data-aos-delay="50"
+            data-aos-duration="900"
+            data-aos-easing="ease-out-cubic"
             style={{
               paddingLeft: "32px",
               paddingRight: "24px",
@@ -36,6 +40,10 @@ const Landing = () => {
             }}
           >
             <div
+              data-aos="fade-up"
+              data-aos-delay="120"
+              data-aos-duration="700"
+              data-aos-easing="ease-out-cubic"
               style={{
                 color: "#6e61d5",
                 fontWeight: 700,
@@ -49,6 +57,10 @@ const Landing = () => {
             </div>
 
             <h1
+              data-aos="fade-up"
+              data-aos-delay="180"
+              data-aos-duration="900"
+              data-aos-easing="ease-out-cubic"
               style={{
                 fontSize: "clamp(3.1rem, 3.5vw, 5.2rem)",
                 lineHeight: "0.96",
@@ -63,6 +75,10 @@ const Landing = () => {
             </h1>
 
             <p
+              data-aos="fade-up"
+              data-aos-delay="260"
+              data-aos-duration="900"
+              data-aos-easing="ease-out-cubic"
               style={{
                 maxWidth: "620px",
                 fontSize: "1.08rem",
@@ -78,6 +94,10 @@ const Landing = () => {
 
             <Link
               to="/explore"
+              data-aos="fade-up"
+              data-aos-delay="340"
+              data-aos-duration="900"
+              data-aos-easing="ease-out-cubic"
               style={{
                 display: "inline-block",
                 background: "linear-gradient(135deg, #8a66f5 0%, #7d5ce3 100%)",
@@ -96,6 +116,10 @@ const Landing = () => {
 
           <div
             className="col-lg-6 col-md-12"
+            data-aos="fade-left"
+            data-aos-delay="140"
+            data-aos-duration="1000"
+            data-aos-easing="ease-out-cubic"
             style={{
               position: "relative",
               display: "flex",
