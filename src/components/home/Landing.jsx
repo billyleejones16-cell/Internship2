@@ -13,13 +13,14 @@ const Landing = () => {
         overflow: "hidden",
         display: "flex",
         alignItems: "center",
+        padding: "30px 0 20px",
       }}
     >
       <div className="container" style={{ maxWidth: "1520px", position: "relative" }}>
         <div
           className="row align-items-center"
           style={{
-            minHeight: "760px",
+            minHeight: "680px",
             margin: 0,
             display: "flex",
             alignItems: "center",
@@ -27,47 +28,63 @@ const Landing = () => {
         >
           <div
             className="col-lg-6 col-md-12"
+            data-aos="fade-up"
+            data-aos-delay="50"
+            data-aos-duration="900"
+            data-aos-easing="ease-out-cubic"
             style={{
-              paddingLeft: "42px",
+              paddingLeft: "32px",
               paddingRight: "24px",
               position: "relative",
               zIndex: 2,
             }}
           >
             <div
+              data-aos="fade-up"
+              data-aos-delay="120"
+              data-aos-duration="700"
+              data-aos-easing="ease-out-cubic"
               style={{
                 color: "#6e61d5",
                 fontWeight: 700,
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                fontSize: "1.18rem",
-                marginBottom: "18px",
+                fontSize: "0.95rem",
+                marginBottom: "16px",
               }}
             >
               Gigaland Market
             </div>
 
             <h1
+              data-aos="fade-up"
+              data-aos-delay="180"
+              data-aos-duration="900"
+              data-aos-easing="ease-out-cubic"
               style={{
-                fontSize: "clamp(3.5rem, 4vw, 6.1rem)",
-                lineHeight: "0.92",
+                fontSize: "clamp(3.1rem, 3.5vw, 5.2rem)",
+                lineHeight: "0.96",
                 letterSpacing: "-0.065em",
                 fontWeight: 800,
                 color: "#101114",
-                margin: "0 0 20px",
-                maxWidth: "750px",
+                margin: "0 0 18px",
+                maxWidth: "680px",
               }}
             >
               Create, sell or collect digital items.
             </h1>
 
             <p
+              data-aos="fade-up"
+              data-aos-delay="260"
+              data-aos-duration="900"
+              data-aos-easing="ease-out-cubic"
               style={{
-                maxWidth: "680px",
-                fontSize: "1.15rem",
-                lineHeight: "1.65",
+                maxWidth: "620px",
+                fontSize: "1.08rem",
+                lineHeight: "1.6",
                 color: "#2d2d36",
-                margin: "0 0 36px",
+                margin: "0 0 30px",
               }}
             >
               Unit of data stored on a digital ledger, called a blockchain, that
@@ -77,13 +94,17 @@ const Landing = () => {
 
             <Link
               to="/explore"
+              data-aos="fade-up"
+              data-aos-delay="340"
+              data-aos-duration="900"
+              data-aos-easing="ease-out-cubic"
               style={{
                 display: "inline-block",
                 background: "linear-gradient(135deg, #8a66f5 0%, #7d5ce3 100%)",
                 color: "#fff",
                 borderRadius: "14px",
-                padding: "18px 42px",
-                fontSize: "1.1rem",
+                padding: "14px 34px",
+                fontSize: "1rem",
                 fontWeight: 700,
                 textDecoration: "none",
                 boxShadow: "0 12px 20px rgba(120, 91, 220, 0.18)",
@@ -95,6 +116,10 @@ const Landing = () => {
 
           <div
             className="col-lg-6 col-md-12"
+            data-aos="fade-left"
+            data-aos-delay="140"
+            data-aos-duration="1000"
+            data-aos-easing="ease-out-cubic"
             style={{
               position: "relative",
               display: "flex",
