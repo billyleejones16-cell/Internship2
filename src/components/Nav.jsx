@@ -62,13 +62,13 @@ const Nav = () => {
                     type="text"
                     style={{
                       width: "100%",
-                      height: "48px",
+                      height: "42px",
                       borderRadius: "14px",
                       background: "#f1eff6",
                       border: "1px solid rgba(18, 18, 18, 0.03)",
                       color: "#2d2d36",
                       padding: "0 18px",
-                      fontSize: "1.06rem",
+                      fontSize: "0.96rem",
                       boxShadow: "none",
                     }}
                   />
@@ -88,12 +88,12 @@ const Nav = () => {
                   className="d-none d-lg-flex"
                 >
                   <li className="menu-item-has-children has-child">
-                    <Link to="/" style={{ fontWeight: 500, fontSize: "1.08rem" }}>
+                    <Link to="/" style={{ fontWeight: 500, fontSize: "1rem" }}>
                       Home<span></span>
                     </Link>
                   </li>
                   <li className="menu-item-has-children has-child">
-                    <Link to="/explore" style={{ fontWeight: 500, fontSize: "1.08rem" }}>
+                    <Link to="/explore" style={{ fontWeight: 500, fontSize: "1rem" }}>
                       Explore<span></span>
                     </Link>
                   </li>
@@ -106,11 +106,11 @@ const Nav = () => {
                       }
                       style={{
                         borderRadius: "12px",
-                        padding: "12px 20px",
+                        padding: "10px 18px",
                         fontWeight: 700,
-                        minWidth: "150px",
+                        minWidth: "138px",
                         textAlign: "center",
-                        fontSize: "1.05rem",
+                        fontSize: "0.95rem",
                         lineHeight: 1.2,
                         boxShadow: "none",
                       }}
